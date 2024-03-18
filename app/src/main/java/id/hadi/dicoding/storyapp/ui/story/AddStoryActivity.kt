@@ -102,7 +102,9 @@ class AddStoryActivity : AppCompatActivity() {
 
     private fun submitStory() {
         val desc = binding.edAddDescription.text.toString()
-        val imageFile = Utils.uriToFile(this, currentImageUri)?.reduceFileImage()
+        val file = Utils.uriToFile(this, currentImageUri)
+        val targetSize = 1024 * 1024
+        val imageFile = Utils.compressAndWriteImage(this, file?.path, targetSize.toLong())
         if (imageFile == null) {
             Toast.makeText(this, "Error submit Image, please try again add Image", Toast.LENGTH_LONG).show()
             return

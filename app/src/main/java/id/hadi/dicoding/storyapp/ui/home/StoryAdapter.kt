@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import id.hadi.dicoding.storyapp.data.network.response.Story
 import id.hadi.dicoding.storyapp.databinding.ItemStoryBinding
@@ -14,9 +15,12 @@ import id.hadi.dicoding.storyapp.databinding.ItemStoryBinding
  */
 class StoryAdapter(val glide: RequestManager): RecyclerView.Adapter<StoryAdapter.StoryViewHolder>() {
 
-    inner class StoryViewHolder(val binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class StoryViewHolder(private val binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Story) {
-            glide.load(item.photoUrl).into(binding.ivItemPhoto)
+//            glide.load(item.photoUrl)
+//                .into(binding.ivItemPhoto)
+            Glide.with(itemView.context).load(item.photoUrl)
+                .into(binding.ivItemPhoto)
             binding.tvDetailName.text = item.name
 
             itemView.setOnClickListener {
