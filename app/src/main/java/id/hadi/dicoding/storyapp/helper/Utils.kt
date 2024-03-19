@@ -15,6 +15,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -49,7 +50,9 @@ object Utils {
         val cursor = context.contentResolver.query(uri, null, null, null, null)
         var file: File? = null
         if (cursor != null && cursor.moveToFirst()) {
-            if (cursor.getColumnIndex("_data") < 0) return null
+            if (cursor.getColumnIndex("_data") < 0) {
+                return getFileFromContentUriExisting(context, uri)
+            }
             val filePath = cursor.getString(cursor.getColumnIndex("_data"))
             if (filePath != null) {
                 file = File(filePath)
@@ -58,6 +61,42 @@ object Utils {
         }
         return file
     }
+
+    private fun getFileFromContentUriExisting(context: Context, contentUri: Uri): File? {
+        val fileDescriptor = context.contentResolver.openFileDescriptor(contentUri, "r") ?: return null
+        val fileName = getFileName(contentUri) ?: return null
+        val newFile = File(context.cacheDir, fileName)
+
+        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+        val outputStream = newFile.outputStream()
+
+        val buffer = ByteArray(BUFFER_SIZE)
+        var bytesRead: Int
+
+        try {
+            while (inputStream.read(buffer).also { bytesRead = it } > 0) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+            return newFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        } finally {
+            inputStream.close()
+            outputStream.close()
+        }
+    }
+
+    private fun getFileName(contentUri: Uri): String? {
+        val fileName = contentUri.lastPathSegment
+        return if (fileName.isNullOrEmpty()) {
+            "temp_file" // Default filename if not provided by URI
+        } else {
+            fileName
+        }
+    }
+
+    private const val BUFFER_SIZE = 4096
 
     fun getPrimaryColor(context: Context): Int {
         val typedValue = TypedValue()
