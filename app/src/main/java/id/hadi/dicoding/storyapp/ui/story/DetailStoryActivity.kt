@@ -53,7 +53,6 @@ class DetailStoryActivity : AppCompatActivity() {
                         loading.dismiss()
                         Utils.showSnackBar(binding.root, resources.data.toString())
                     }
-                    else -> Unit
                 }
             }
         }

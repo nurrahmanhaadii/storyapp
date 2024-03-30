@@ -111,7 +111,6 @@ class LoginActivity : AppCompatActivity() {
                     loading.dismiss()
                     Utils.showSnackBar(binding.root, it.data.toString())
                 }
-                else -> Unit
             }
         }
     }

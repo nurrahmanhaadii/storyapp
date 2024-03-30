@@ -7,5 +7,4 @@ import dagger.hilt.android.HiltAndroidApp
  * Created by nurrahmanhaadii on 12,March,2024
  */
 @HiltAndroidApp
-class StoryApp: Application() {
-}
+class StoryApp: Application() 

@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
                     loading.dismiss()
                     Utils.showSnackBar(binding.root, it.data.toString())
                 }
-                else -> Unit
             }
         }
     }
@@ -114,7 +113,6 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
                     loading.dismiss()
                     Utils.showSnackBar(binding.root, it.data.toString())
                 }
-                else -> Unit
             }
         }
     }

@@ -58,8 +58,6 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(this, data.message, Toast.LENGTH_SHORT).show()
                     backToLogin()
                 }
-
-                else -> Unit
             }
         }
     }
