@@ -61,7 +61,7 @@ class StoryViewModelTest {
         flowItems.test {
             assertThat(awaitItem()).isNotNull()
             assertThat(snapshotItem.size).isEqualTo(30)
-            assertThat(snapshotItem[0].id).isEqualTo("0")
+            assertThat(snapshotItem[0]).isEqualTo(DataUtils.generateDummyStory()[0])
             awaitComplete()
         }
     }
