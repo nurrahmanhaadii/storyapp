@@ -42,4 +42,6 @@ interface MainRepository {
     suspend fun setUser(user: String)
 
     fun getUser(): Flow<String>
+
+    fun setDummyStories(stories: List<Story>)
 }

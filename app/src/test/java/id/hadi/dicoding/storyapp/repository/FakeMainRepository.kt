@@ -23,6 +23,8 @@ import okhttp3.MultipartBody
  * Created by nurrahmanhaadii on 13,May,2024
  */
 class FakeMainRepository: MainRepository {
+
+    private var dummyStories = listOf<Story>()
     override suspend fun register(request: RegisterRequest): BaseResponse {
         TODO("Not yet implemented")
     }
@@ -31,14 +33,13 @@ class FakeMainRepository: MainRepository {
         TODO("Not yet implemented")
     }
 
+    override fun setDummyStories(stories: List<Story>) {
+        dummyStories = stories
+    }
+
     override fun getAllStories(): LiveData<PagingData<Story>> {
-        // Define your test data
-
-        val testData = mutableListOf<Story>()
-//        testData.addAll(DataUtils.generateDummyStory())
-
         // Create the fake paging source with test data
-        val fakePagingSource = FakePagingSource<Story>(testData)
+        val fakePagingSource = FakePagingSource<Story>(dummyStories)
 
         val pager = Pager(
             config = PagingConfig(pageSize = 10),

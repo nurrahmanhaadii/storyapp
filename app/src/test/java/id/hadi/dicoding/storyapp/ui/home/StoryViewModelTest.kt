@@ -64,17 +64,13 @@ class StoryViewModelTest {
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     private lateinit var viewModel: StoryViewModel
+    private lateinit var repository: FakeMainRepository
 
-    private val noopListUpdateCallback = object : ListUpdateCallback {
-        override fun onInserted(position: Int, count: Int) {}
-        override fun onRemoved(position: Int, count: Int) {}
-        override fun onMoved(fromPosition: Int, toPosition: Int) {}
-        override fun onChanged(position: Int, count: Int, payload: Any?) {}
-    }
 
     @Before
     fun setup() {
-        viewModel = StoryViewModel(FakeMainRepository())
+        repository = FakeMainRepository()
+        viewModel = StoryViewModel(repository)
         Dispatchers.setMain(mainThreadSurrogate)
     }
 
@@ -86,6 +82,7 @@ class StoryViewModelTest {
 
     @Test
     fun `when Get Stories Should Not Null and Return Success`() = runTest {
+        repository.setDummyStories(DataUtils.generateDummyStory())
         val items = viewModel.getAllStories().getOrAwaitValueTest()
         val flowItems = flowOf(items)
 
@@ -101,6 +98,7 @@ class StoryViewModelTest {
 
     @Test
     fun `when Get Stories Empty and Return Success`() = runTest {
+        repository.setDummyStories(listOf())
         val items = viewModel.getAllStories().getOrAwaitValueTest()
         val flowItems = flowOf(items)
 

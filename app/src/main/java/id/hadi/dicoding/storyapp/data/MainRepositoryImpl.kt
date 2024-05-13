@@ -89,4 +89,6 @@ class MainRepositoryImpl(
     override fun getUser(): Flow<String> {
         return dataStore.getUser()
     }
+
+    override fun setDummyStories(stories: List<Story>) = Unit
 }
