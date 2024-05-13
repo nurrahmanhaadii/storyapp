@@ -23,10 +23,23 @@
             android:id="@+id/tv_detail_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:padding="6dp"
+            android:paddingHorizontal="12dp"
+            android:paddingTop="6dp"
             android:background="@color/granite"
             android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
             tools:text="Nama"/>
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:paddingBottom="6dp"
+            android:background="@color/granite"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="desc"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

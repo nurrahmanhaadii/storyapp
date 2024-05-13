@@ -1,10 +1,15 @@
 package id.hadi.dicoding.storyapp.ui.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import id.hadi.dicoding.storyapp.data.MainRepository
 import id.hadi.dicoding.storyapp.data.model.Resource
+import id.hadi.dicoding.storyapp.data.network.response.Story
 import id.hadi.dicoding.storyapp.helper.Utils
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
@@ -17,10 +22,12 @@ import javax.inject.Inject
  * Created by nurrahmanhaadii on 13,March,2024
  */
 @HiltViewModel
-class StoryViewModel @Inject constructor(private val repository: MainRepository): ViewModel() {
+class StoryViewModel @Inject constructor(private val repository: MainRepository) : ViewModel() {
 
-    fun getAllStories() = flow {
-        emit(repository.getAllStories())
+    fun getAllStories(): LiveData<PagingData<Story>> = repository.getAllStories()
+
+    fun getAllStoriesWithLocation() = flow {
+        emit(repository.getAllStoriesWithLocation())
     }.map {
         Resource.Success(data = it) as Resource<*>
     }.onStart {
@@ -39,9 +46,9 @@ class StoryViewModel @Inject constructor(private val repository: MainRepository)
         emit(Resource.Error(data = it))
     }.asLiveData()
 
-    fun submitStory(description: String, image: File) = flow {
+    fun submitStory(description: String, image: File, lat: Double?, long: Double?) = flow {
         val fileMultipart = Utils.getMultipartBodyFile("photo", image)
-        emit(repository.submitStory(description, fileMultipart))
+        emit(repository.submitStory(description, fileMultipart, lat, long))
     }.map {
         Resource.Success(data = it) as Resource<*>
     }.onStart {

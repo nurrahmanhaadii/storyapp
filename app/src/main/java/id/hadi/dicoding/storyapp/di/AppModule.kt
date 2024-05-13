@@ -51,5 +51,5 @@ object AppModule {
             )
 
     @Provides
-    fun provideStoryAdapter(glide: RequestManager) = StoryAdapter(glide)
+    fun provideStoryAdapter() = StoryAdapter()
 }

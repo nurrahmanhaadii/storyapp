@@ -1,10 +1,14 @@
 package id.hadi.dicoding.storyapp.data
 
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingData
 import id.hadi.dicoding.storyapp.data.network.request.LoginRequest
 import id.hadi.dicoding.storyapp.data.network.request.RegisterRequest
 import id.hadi.dicoding.storyapp.data.network.response.BaseResponse
 import id.hadi.dicoding.storyapp.data.network.response.LoginResponse
 import id.hadi.dicoding.storyapp.data.network.response.LoginResult
+import id.hadi.dicoding.storyapp.data.network.response.Story
 import id.hadi.dicoding.storyapp.data.network.response.StoryResponse
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -19,11 +23,13 @@ interface MainRepository {
 
     suspend fun login(request: LoginRequest): LoginResponse
 
-    suspend fun getAllStories(): StoryResponse
+    fun getAllStories(): LiveData<PagingData<Story>>
+
+    suspend fun getAllStoriesWithLocation(): StoryResponse
 
     suspend fun getDetailStory(id: String): StoryResponse
 
-    suspend fun submitStory(description: String, fileMultipart: MultipartBody.Part): BaseResponse
+    suspend fun submitStory(description: String, fileMultipart: MultipartBody.Part, lat: Double? = null, long: Double? = null): BaseResponse
 
     suspend fun setIsLogin(isLogin: Boolean)
 

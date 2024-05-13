@@ -3,11 +3,14 @@ package id.hadi.dicoding.storyapp.ui.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.paging.PagingData
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +23,8 @@ import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.auth.AuthViewModel
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
+import id.hadi.dicoding.storyapp.ui.base.LoadingStateAdapter
+import id.hadi.dicoding.storyapp.ui.map.MapsActivity
 import id.hadi.dicoding.storyapp.ui.story.AddStoryActivity
 import id.hadi.dicoding.storyapp.ui.story.DetailStoryActivity
 import javax.inject.Inject
@@ -47,6 +52,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         setSupportActionBar(binding.toolbar)
         initRecyclerview()
         getAllStories()
+        Log.d(MainActivity::class.simpleName, "Ini halaman home")
         binding.fab.setOnClickListener {
             goToAddStoryPage()
         }
@@ -57,28 +63,21 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
             storyAdapter.setItemClickListener(this@MainActivity)
 
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            adapter = storyAdapter
+//            layoutManager = LinearLayoutManager(this@MainActivity)
+//            layoutManager = GridLayoutManager(this@MainActivity, 2)
+            adapter = storyAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    storyAdapter.retry()
+                }
+            )
         }
     }
 
     private fun getAllStories() {
         storyViewModel.getAllStories().observe(this) {
-            when (it) {
-                Resource.Loading -> loading.show()
-                is Resource.Success -> {
-                    loading.dismiss()
-                    val data = it.data as StoryResponse
-                    if (data.listStory.isEmpty()) {
-                        binding.tvNoItem.isVisible = false
-                        return@observe
-                    }
-                    storyAdapter.items = data.listStory
-                }
-                is Resource.Error -> {
-                    loading.dismiss()
-                    Utils.showSnackBar(binding.root, it.data.toString())
-                }
-            }
+            val dataNull : PagingData<Story>? = null
+            Log.d("TAG", dataNull.toString())
+            storyAdapter.submitData(lifecycle, it)
         }
     }
 
@@ -96,6 +95,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_logout -> logout()
+            R.id.action_map -> goToMapPage()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -126,6 +126,11 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
     private fun goToAddStoryPage() {
         val intent = Intent(this, AddStoryActivity::class.java)
         addStoryLauncher.launch(intent)
+    }
+
+    private fun goToMapPage() {
+        val intent = Intent(this, MapsActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {
