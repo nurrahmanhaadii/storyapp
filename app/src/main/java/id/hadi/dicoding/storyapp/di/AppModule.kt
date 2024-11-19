@@ -2,21 +2,20 @@ package id.hadi.dicoding.storyapp.di
 
 import android.content.Context
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import id.haadii.dicoding.submission.core.StoryPreferenceManager
+import id.haadii.dicoding.submission.core.local.database.StoryDatabase
+import id.haadii.dicoding.submission.core.network.api.ApiService
+import id.haadii.dicoding.submission.core.network.api.RetrofitBuilder
+import id.haadii.dicoding.submission.core.repositories.MainRepository
+import id.haadii.dicoding.submission.core.repositories.MainRepositoryImpl
 import id.hadi.dicoding.storyapp.R
-import id.hadi.dicoding.storyapp.data.MainRepository
-import id.hadi.dicoding.storyapp.data.MainRepositoryImpl
-import id.hadi.dicoding.storyapp.data.api.RetrofitBuilder
-import id.hadi.dicoding.storyapp.data.network.api.ApiService
-import id.hadi.dicoding.storyapp.helper.StoryPreferenceManager
 import id.hadi.dicoding.storyapp.ui.home.StoryAdapter
-import kotlinx.coroutines.flow.first
 import javax.inject.Singleton
 
 /**
@@ -38,8 +37,9 @@ object AppModule {
     @Provides
     fun provideMainRepository(
         apiService: ApiService,
-        dataStoryPreferenceManager: StoryPreferenceManager
-    ): MainRepository = MainRepositoryImpl(apiService, dataStoryPreferenceManager)
+        dataStoryPreferenceManager: StoryPreferenceManager,
+        database: StoryDatabase
+    ): MainRepository = MainRepositoryImpl(apiService, dataStoryPreferenceManager, database)
 
     @Singleton
     @Provides
@@ -52,4 +52,8 @@ object AppModule {
 
     @Provides
     fun provideStoryAdapter() = StoryAdapter()
+
+    @Provides
+    fun provideDatabase(@ApplicationContext context: Context) = StoryDatabase.getDatabase(context)
+
 }

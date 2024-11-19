@@ -12,14 +12,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import id.hadi.dicoding.storyapp.data.model.Resource
-import id.hadi.dicoding.storyapp.data.network.request.LoginRequest
-import id.hadi.dicoding.storyapp.data.network.response.ErrorResponse
+import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.core.network.request.LoginRequest
 import id.hadi.dicoding.storyapp.databinding.ActivityLoginBinding
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
 import id.hadi.dicoding.storyapp.ui.home.MainActivity
-import java.lang.Error
 
 
 @AndroidEntryPoint

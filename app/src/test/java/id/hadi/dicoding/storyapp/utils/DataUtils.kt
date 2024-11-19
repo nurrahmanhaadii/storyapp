@@ -1,15 +1,15 @@
 package id.hadi.dicoding.storyapp.utils
 
-import id.hadi.dicoding.storyapp.data.network.response.Story
+import id.haadii.dicoding.submission.core.network.response.StoryResponse
 
 /**
  * Created by nurrahmanhaadii on 02,April,2024
  */
 object DataUtils {
-    fun generateDummyStory(): List<Story> {
-        val storyList = mutableListOf<Story>()
+    fun generateDummyStory(): List<StoryResponse> {
+        val storyList = mutableListOf<StoryResponse>()
         for (i in 0..100) {
-            val story = Story(
+            val story = StoryResponse(
                 createdAt = "time",
                 description = "description",
                 id = i.toString(),

@@ -1,25 +1,24 @@
 package id.hadi.dicoding.storyapp.ui.home
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.core.view.isVisible
-import androidx.paging.PagingData
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.paging.map
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dagger.hilt.android.AndroidEntryPoint
+import id.haadii.dicoding.submission.core.model.Resource
 import id.hadi.dicoding.storyapp.R
-import id.hadi.dicoding.storyapp.data.model.Resource
-import id.hadi.dicoding.storyapp.data.network.response.Story
-import id.hadi.dicoding.storyapp.data.network.response.StoryResponse
 import id.hadi.dicoding.storyapp.databinding.ActivityMainBinding
+import id.hadi.dicoding.storyapp.domain.model.Story
 import id.hadi.dicoding.storyapp.helper.Utils
+import id.hadi.dicoding.storyapp.helper.mapToDomain
 import id.hadi.dicoding.storyapp.ui.auth.AuthViewModel
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
         setSupportActionBar(binding.toolbar)
         initRecyclerview()
         getAllStories()
-        Log.d(MainActivity::class.simpleName, "Ini halaman home")
         binding.fab.setOnClickListener {
             goToAddStoryPage()
         }
@@ -63,8 +61,6 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
             storyAdapter.setItemClickListener(this@MainActivity)
 
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//            layoutManager = LinearLayoutManager(this@MainActivity)
-//            layoutManager = GridLayoutManager(this@MainActivity, 2)
             adapter = storyAdapter.withLoadStateFooter(
                 footer = LoadingStateAdapter {
                     storyAdapter.retry()
@@ -75,16 +71,14 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 
     private fun getAllStories() {
         storyViewModel.getAllStories().observe(this) {
-            val dataNull : PagingData<Story>? = null
-            Log.d("TAG", dataNull.toString())
-            storyAdapter.submitData(lifecycle, it)
+            storyAdapter.submitData(lifecycle, it.map { data -> data.mapToDomain() })
         }
     }
 
     override fun onStoryClicked(item: Story) {
         val intent = Intent(this, DetailStoryActivity::class.java)
         intent.putExtra("story_key", item)
-        startActivity(intent)
+        addStoryLauncher.launch(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -94,6 +88,7 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.action_favorite -> installFavoriteModule()
             R.id.action_logout -> logout()
             R.id.action_map -> goToMapPage()
         }
@@ -130,6 +125,33 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 
     private fun goToMapPage() {
         val intent = Intent(this, MapsActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun installFavoriteModule() {
+        val splitInstallManager = SplitInstallManagerFactory.create(this)
+        val moduleChat = "favorite"
+        if (splitInstallManager.installedModules.contains(moduleChat)) {
+            goToFavoritePage()
+            Toast.makeText(this, "Open module", Toast.LENGTH_SHORT).show()
+        } else {
+            val request = SplitInstallRequest.newBuilder()
+                .addModule(moduleChat)
+                .build()
+
+            splitInstallManager.startInstall(request)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Success installing module", Toast.LENGTH_SHORT).show()
+                    goToFavoritePage()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Error installing module: $it", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun goToFavoritePage() {
+        val intent = Intent(this, Class.forName("id.haadii.dicoding.submission.favorite.FavoriteActivity"))
         startActivity(intent)
     }
 

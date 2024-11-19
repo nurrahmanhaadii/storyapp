@@ -1,13 +1,12 @@
 package id.hadi.dicoding.storyapp.ui.map
 
 import android.content.res.Resources
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
-
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,10 +15,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
+import id.haadii.dicoding.submission.core.model.Resource
 import id.hadi.dicoding.storyapp.R
-import id.hadi.dicoding.storyapp.data.model.Resource
-import id.hadi.dicoding.storyapp.data.network.response.StoryResponse
 import id.hadi.dicoding.storyapp.databinding.ActivityMapsBinding
+import id.hadi.dicoding.storyapp.domain.model.StoryBase
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
 import id.hadi.dicoding.storyapp.ui.home.StoryViewModel
@@ -83,7 +82,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Resource.Loading -> loading.show()
                 is Resource.Success -> {
                     loading.dismiss()
-                    val data = it.data as StoryResponse
+                    val data = it.data as StoryBase
 
                     addMarkers(data)
                 }
@@ -95,9 +94,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun addMarkers(storyResponse: StoryResponse) {
+    private fun addMarkers(storyResponse: StoryBase) {
         storyResponse.listStory.forEach { data ->
-            val latLng = LatLng(data.lat, data.lon)
+            val latLng = LatLng(data.lat ?: 0.0, data.lon ?: 0.0)
             mMap.addMarker(
                 MarkerOptions()
                     .position(latLng)

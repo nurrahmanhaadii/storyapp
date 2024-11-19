@@ -51,8 +51,10 @@
             android:exported="false" />
         <activity
             android:name=".ui.story.AddStoryActivity"
-            android:exported="false"
-            android:theme="@style/Theme.StoryApp" />
+            android:exported="true"
+            android:theme="@style/Theme.StoryApp" >
+
+        </activity>
         <activity
             android:name=".ui.story.DetailStoryActivity"
             android:exported="false" />

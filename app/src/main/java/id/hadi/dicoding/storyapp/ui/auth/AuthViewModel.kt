@@ -7,20 +7,17 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.hadi.dicoding.storyapp.data.MainRepository
-import id.hadi.dicoding.storyapp.data.model.LoginEligible
-import id.hadi.dicoding.storyapp.data.model.Resource
-import id.hadi.dicoding.storyapp.data.network.request.LoginRequest
-import id.hadi.dicoding.storyapp.data.network.request.RegisterRequest
-import id.hadi.dicoding.storyapp.data.network.response.LoginResult
-import kotlinx.coroutines.Dispatchers
+import id.haadii.dicoding.submission.core.model.LoginEligible
+import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.core.network.request.LoginRequest
+import id.haadii.dicoding.submission.core.network.request.RegisterRequest
+import id.haadii.dicoding.submission.core.network.response.LoginResult
+import id.haadii.dicoding.submission.core.repositories.MainRepository
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import java.lang.reflect.Constructor
 import javax.inject.Inject
 
 /**

@@ -1,15 +1,14 @@
 package id.hadi.dicoding.storyapp.ui.auth
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import id.hadi.dicoding.storyapp.R
-import id.hadi.dicoding.storyapp.data.model.Resource
-import id.hadi.dicoding.storyapp.data.network.request.RegisterRequest
-import id.hadi.dicoding.storyapp.data.network.response.BaseResponse
+import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.core.network.request.RegisterRequest
+import id.haadii.dicoding.submission.core.network.response.BaseResponse
 import id.hadi.dicoding.storyapp.databinding.ActivityRegisterBinding
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity.Companion.KEY_EMAIL

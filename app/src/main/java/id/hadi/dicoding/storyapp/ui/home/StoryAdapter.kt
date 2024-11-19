@@ -2,14 +2,13 @@ package id.hadi.dicoding.storyapp.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
-import id.hadi.dicoding.storyapp.data.network.response.Story
 import id.hadi.dicoding.storyapp.databinding.ItemStoryBinding
+import id.hadi.dicoding.storyapp.domain.model.Story
 
 /**
  * Created by nurrahmanhaadii on 13,March,2024
@@ -22,6 +21,8 @@ class StoryAdapter: PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(DIFF_
                 .into(binding.ivItemPhoto)
             binding.tvDetailName.text = item.name
             binding.tvDescription.text = item.description
+
+            binding.imgFav.isVisible = item.isFavorite
 
             itemView.setOnClickListener {
                 onItemClickListener.onStoryClicked(item)

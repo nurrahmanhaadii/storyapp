@@ -4,7 +4,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -19,10 +18,9 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.AndroidEntryPoint
-import id.hadi.dicoding.storyapp.data.model.Resource
+import id.haadii.dicoding.submission.core.model.Resource
 import id.hadi.dicoding.storyapp.databinding.ActivityAddStoryBinding
 import id.hadi.dicoding.storyapp.helper.Utils
-import id.hadi.dicoding.storyapp.helper.reduceFileImage
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
 import id.hadi.dicoding.storyapp.ui.camera.CameraActivity
 import id.hadi.dicoding.storyapp.ui.camera.CameraActivity.Companion.CAMERAX_RESULT

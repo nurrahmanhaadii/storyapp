@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Story App"
 include(":app")
+include(":core")
+include(":favorite")
