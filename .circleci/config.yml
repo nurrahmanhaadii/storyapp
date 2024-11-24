@@ -21,7 +21,8 @@ jobs:
     executor:
       name: android/android-machine
       tag: default
-
+    environment:
+      JAVA_OPTS: "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED"
     # Add steps to the job
     # See: https://circleci.com/docs/jobs-steps/#steps-overview & https://circleci.com/docs/configuration-reference/#steps
     steps:
@@ -32,7 +33,7 @@ jobs:
       - run:
           name: Assemble debug build
           command: |
-            ./gradlew assembleDebug --add-exports jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED
+            ./gradlew assembleDebug
 
       - store_artifacts:
           path: app/build/reports
