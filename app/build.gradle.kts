@@ -89,7 +89,7 @@ dependencies {
 
     // GLIDE IMAGE LOADER
     implementation("com.github.bumptech.glide:glide:4.14.2")
-    annotationProcessor("com.github.bumptech.glide:glide:4.14.2")
+    kapt("com.github.bumptech.glide:glide:4.14.2")
 
     implementation("androidx.camera:camera-camera2:1.3.2")
     implementation("androidx.camera:camera-lifecycle:1.3.2")
