@@ -4,8 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.paging.testing.asSnapshot
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
+import id.haadii.dicoding.submission.domain.usecase.StoryUseCase
 import id.hadi.dicoding.storyapp.getOrAwaitValueTest
-import id.hadi.dicoding.storyapp.repository.FakeMainRepository
+import id.hadi.dicoding.storyapp.repository.FakeStoryUseCase
 import id.hadi.dicoding.storyapp.utils.DataUtils
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -34,13 +35,12 @@ class StoryResponseViewModelTest {
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
     private lateinit var viewModel: StoryViewModel
-    private lateinit var repository: FakeMainRepository
-
+    private lateinit var useCase: StoryUseCase
 
     @Before
     fun setup() {
-        repository = FakeMainRepository()
-        viewModel = StoryViewModel(repository)
+        useCase = FakeStoryUseCase()
+        viewModel = StoryViewModel(useCase)
         Dispatchers.setMain(mainThreadSurrogate)
     }
 
@@ -52,7 +52,7 @@ class StoryResponseViewModelTest {
 
     @Test
     fun `when Get Stories Should Not Null and Return Success`() = runTest {
-        repository.setDummyStories(DataUtils.generateDummyStory())
+        useCase.setDummyStories(DataUtils.generateDummyStory())
         val items = viewModel.getAllStories().getOrAwaitValueTest()
         val flowItems = flowOf(items)
 
@@ -68,7 +68,7 @@ class StoryResponseViewModelTest {
 
     @Test
     fun `when Get Stories Empty and Return Success`() = runTest {
-        repository.setDummyStories(listOf())
+        useCase.setDummyStories(listOf())
         val items = viewModel.getAllStories().getOrAwaitValueTest()
         val flowItems = flowOf(items)
 
