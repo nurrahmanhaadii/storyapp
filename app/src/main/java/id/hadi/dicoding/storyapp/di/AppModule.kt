@@ -15,6 +15,8 @@ import id.haadii.dicoding.submission.core.network.api.RetrofitBuilder
 import id.haadii.dicoding.submission.core.repositories.MainRepository
 import id.haadii.dicoding.submission.core.repositories.MainRepositoryImpl
 import id.hadi.dicoding.storyapp.R
+import id.hadi.dicoding.storyapp.domain.StoryInteractor
+import id.hadi.dicoding.storyapp.domain.StoryUseCase
 import id.hadi.dicoding.storyapp.ui.home.StoryAdapter
 import javax.inject.Singleton
 
@@ -40,6 +42,13 @@ object AppModule {
         dataStoryPreferenceManager: StoryPreferenceManager,
         database: StoryDatabase
     ): MainRepository = MainRepositoryImpl(apiService, dataStoryPreferenceManager, database)
+
+    @Singleton
+    @Provides
+    fun provideStoryUsecase(
+        repository: MainRepository
+    ): StoryUseCase = StoryInteractor(repository)
+
 
     @Singleton
     @Provides
