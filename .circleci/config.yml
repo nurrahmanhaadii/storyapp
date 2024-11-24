@@ -15,6 +15,17 @@ jobs:
     executor: android/android
     steps:
       - checkout
+      - run:
+          name: Install Java 17
+          command: |
+            sudo apt-get update
+            sudo apt-get install openjdk-17-jdk
+      - run:
+          name: Set Java 17 as default
+          command: |
+            sudo update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-17-openjdk-amd64/bin/java 1
+            sudo update-alternatives --set java /usr/lib/jvm/java-17-openjdk-amd64/bin/java
+            java -version
       - restore_cache:
           key: android-orb-v1-
       - run:
