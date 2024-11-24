@@ -1,4 +1,4 @@
-package id.haadii.dicoding.submission.core.model
+package id.haadii.dicoding.submission.domain.model
 
 /**
  * Created by nurrahmanhaadii on 12,March,2024

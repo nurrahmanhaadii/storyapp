@@ -12,8 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import id.haadii.dicoding.submission.core.model.Resource
-import id.haadii.dicoding.submission.core.network.request.LoginRequest
+import id.haadii.dicoding.submission.domain.model.Resource
 import id.hadi.dicoding.storyapp.databinding.ActivityLoginBinding
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
@@ -96,9 +95,8 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val email = binding.edLoginEmail.text.toString()
         val password = binding.edLoginPassword.text.toString()
-        val request = LoginRequest(email, password)
 
-        viewModel.login(request).observe(this) {
+        viewModel.login(email, password).observe(this) {
             when (it) {
                 Resource.Loading -> loading.show()
                 is Resource.Success -> {

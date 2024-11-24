@@ -18,7 +18,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.AndroidEntryPoint
-import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.domain.model.Resource
 import id.hadi.dicoding.storyapp.databinding.ActivityAddStoryBinding
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog

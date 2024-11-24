@@ -1,4 +1,4 @@
-package id.hadi.dicoding.storyapp.domain.model
+package id.haadii.dicoding.submission.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -6,22 +6,25 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import id.haadii.dicoding.submission.core.StoryPagingSource
 import id.haadii.dicoding.submission.core.StoryPreferenceManager
 import id.haadii.dicoding.submission.core.StoryRemoteMediator
+import id.haadii.dicoding.submission.core.helpers.Utils
 import id.haadii.dicoding.submission.core.local.database.StoryDatabase
 import id.haadii.dicoding.submission.core.local.entity.Favorite
-import id.haadii.dicoding.submission.core.local.entity.StoryEntity
+import id.haadii.dicoding.submission.core.mapToDomain
 import id.haadii.dicoding.submission.core.network.api.ApiService
 import id.haadii.dicoding.submission.core.network.request.LoginRequest
 import id.haadii.dicoding.submission.core.network.request.RegisterRequest
-import id.haadii.dicoding.submission.core.network.response.BaseResponse
-import id.haadii.dicoding.submission.core.network.response.LoginResponse
-import id.haadii.dicoding.submission.core.network.response.StoryBaseResponse
-import id.haadii.dicoding.submission.core.network.response.StoryResponse
+import id.haadii.dicoding.submission.domain.model.BaseResponse
+import id.haadii.dicoding.submission.domain.model.Login
+import id.haadii.dicoding.submission.domain.model.Story
+import id.haadii.dicoding.submission.domain.model.StoryBase
+import id.haadii.dicoding.submission.domain.repository.MainRepository
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 /**
  * Created by nurrahmanhaadii on 12,March,2024
@@ -32,45 +35,46 @@ class MainRepositoryImpl(
     private val storyDatabase: StoryDatabase
 ) : MainRepository {
 
-    override suspend fun register(request: RegisterRequest): BaseResponse {
-        return apiService.register(request)
+    override suspend fun register(name: String, email: String, password: String): BaseResponse {
+        return apiService.register(RegisterRequest(name, email, password)).mapToDomain()
     }
 
-    override suspend fun login(request: LoginRequest): LoginResponse {
-        return apiService.login(request)
+    override suspend fun login(email: String, password: String): Login {
+        return apiService.login(LoginRequest(email, password)).mapToDomain()
     }
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getAllStories(): LiveData<PagingData<StoryEntity>> {
+    override fun getAllStories(): LiveData<PagingData<Story>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
             remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
             pagingSourceFactory = {
-                storyDatabase.storyDao().getAllStories()
+                StoryPagingSource(apiService)
             }
         ).liveData
     }
 
-    override suspend fun getAllStoriesWithLocation(): StoryBaseResponse {
-        return apiService.getAllStoriesWithLocation()
+    override suspend fun getAllStoriesWithLocation(): StoryBase {
+        return apiService.getAllStoriesWithLocation().mapToDomain()
     }
 
-    override suspend fun getDetailStory(id: String): StoryBaseResponse {
-        return apiService.getDetailStories(id)
+    override suspend fun getDetailStory(id: String): StoryBase {
+        return apiService.getDetailStories(id).mapToDomain()
     }
 
     override suspend fun submitStory(
         description: String,
-        fileMultipart: MultipartBody.Part,
+        image: File,
         lat: Double?,
         long: Double?
     ): BaseResponse {
+        val fileMultipart = Utils.getMultipartBodyFile("photo", image)
         val desc = description.toRequestBody("text/plain".toMediaType())
         val latitude = lat?.toString()?.toRequestBody("text/plain".toMediaType())
         val longitude = long?.toString()?.toRequestBody("text/plain".toMediaType())
-        return apiService.addStory(desc, fileMultipart, latitude, longitude)
+        return apiService.addStory(desc, fileMultipart, latitude, longitude).mapToDomain()
     }
 
     override suspend fun setIsLogin(isLogin: Boolean) {
@@ -97,7 +101,7 @@ class MainRepositoryImpl(
         return dataStore.getUser()
     }
 
-    override fun setDummyStories(stories: List<StoryResponse>) = Unit
+    override fun setDummyStories(stories: List<Story>) = Unit
 
     override suspend fun setFavorite(isFavorite: Boolean, id: String) {
         if (isFavorite) {
@@ -111,20 +115,7 @@ class MainRepositoryImpl(
         return storyDatabase.favoriteDao().getFavorite(id) != null
     }
 
-    @OptIn(ExperimentalPagingApi::class)
-    override fun getAllFavorite(): LiveData<PagingData<StoryEntity>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 5
-            ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
-            pagingSourceFactory = {
-                storyDatabase.favoriteDao().getAllFavorite()
-            }
-        ).liveData
-    }
-
-    override suspend fun getFavorite(): List<StoryEntity> {
-        return storyDatabase.favoriteDao().getFavorite()
+    override suspend fun getFavorite(): List<Story> {
+        return storyDatabase.favoriteDao().getFavorite().map { it.mapToDomain() }
     }
 }

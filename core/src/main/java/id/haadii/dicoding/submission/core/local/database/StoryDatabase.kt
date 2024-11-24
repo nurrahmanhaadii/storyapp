@@ -11,7 +11,7 @@ import id.haadii.dicoding.submission.core.local.entity.Favorite
 import id.haadii.dicoding.submission.core.local.entity.RemoteKeys
 import id.haadii.dicoding.submission.core.local.entity.StoryEntity
 
-@Database(entities = [StoryEntity::class, RemoteKeys::class, Favorite::class], version = 1)
+@Database(entities = [StoryEntity::class, RemoteKeys::class, Favorite::class], version = 2)
 abstract class StoryDatabase: RoomDatabase() {
     abstract fun storyDao(): StoryDao
     abstract fun remoteKeysDao(): RemoteKeysDao

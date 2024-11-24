@@ -15,10 +15,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
-import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.domain.model.Resource
 import id.hadi.dicoding.storyapp.R
 import id.hadi.dicoding.storyapp.databinding.ActivityMapsBinding
-import id.hadi.dicoding.storyapp.domain.model.StoryBase
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
 import id.hadi.dicoding.storyapp.ui.home.StoryViewModel
@@ -82,7 +81,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 Resource.Loading -> loading.show()
                 is Resource.Success -> {
                     loading.dismiss()
-                    val data = it.data as StoryBase
+                    val data = it.data as id.haadii.dicoding.submission.domain.model.StoryBase
 
                     addMarkers(data)
                 }
@@ -94,7 +93,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun addMarkers(storyResponse: StoryBase) {
+    private fun addMarkers(storyResponse: id.haadii.dicoding.submission.domain.model.StoryBase) {
         storyResponse.listStory.forEach { data ->
             val latLng = LatLng(data.lat ?: 0.0, data.lon ?: 0.0)
             mMap.addMarker(

@@ -6,11 +6,10 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.haadii.dicoding.submission.core.local.entity.StoryEntity
-import id.haadii.dicoding.submission.core.model.Resource
-import id.hadi.dicoding.storyapp.domain.StoryUseCase
+import id.haadii.dicoding.submission.domain.model.Resource
+import id.haadii.dicoding.submission.domain.model.Story
+import id.haadii.dicoding.submission.domain.usecase.StoryUseCase
 import id.hadi.dicoding.storyapp.helper.Utils
-import id.hadi.dicoding.storyapp.helper.mapToDomain
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -25,14 +24,12 @@ import javax.inject.Inject
 @HiltViewModel
 class StoryViewModel @Inject constructor(private val useCase: StoryUseCase) : ViewModel() {
 
-    fun getAllStories(): LiveData<PagingData<StoryEntity>> = useCase.getAllStories()
-
-    fun getAllFavorite(): LiveData<PagingData<StoryEntity>> = useCase.getAllFavorite()
+    fun getAllStories(): LiveData<PagingData<Story>> = useCase.getAllStories()
 
     fun getAllStoriesWithLocation() = flow {
         emit(useCase.getAllStoriesWithLocation())
     }.map {
-        Resource.Success(data = it.mapToDomain()) as Resource<*>
+        Resource.Success(data = it) as Resource<*>
     }.onStart {
         emit(Resource.Loading)
     }.catch {
@@ -42,7 +39,7 @@ class StoryViewModel @Inject constructor(private val useCase: StoryUseCase) : Vi
     fun getDetailStory(id: String) = flow {
         emit(useCase.getDetailStory(id))
     }.map {
-        Resource.Success(data = it.mapToDomain()) as Resource<*>
+        Resource.Success(data = it) as Resource<*>
     }.onStart {
         emit(Resource.Loading)
     }.catch {
@@ -51,7 +48,7 @@ class StoryViewModel @Inject constructor(private val useCase: StoryUseCase) : Vi
 
     fun submitStory(description: String, image: File, lat: Double?, long: Double?) = flow {
         val fileMultipart = Utils.getMultipartBodyFile("photo", image)
-        emit(useCase.submitStory(description, fileMultipart, lat, long))
+        emit(useCase.submitStory(description, image, lat, long))
     }.map {
         Resource.Success(data = it) as Resource<*>
     }.onStart {

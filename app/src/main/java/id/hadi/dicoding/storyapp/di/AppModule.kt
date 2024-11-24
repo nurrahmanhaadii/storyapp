@@ -12,11 +12,11 @@ import id.haadii.dicoding.submission.core.StoryPreferenceManager
 import id.haadii.dicoding.submission.core.local.database.StoryDatabase
 import id.haadii.dicoding.submission.core.network.api.ApiService
 import id.haadii.dicoding.submission.core.network.api.RetrofitBuilder
-import id.haadii.dicoding.submission.core.repositories.MainRepository
 import id.haadii.dicoding.submission.core.repositories.MainRepositoryImpl
+import id.haadii.dicoding.submission.domain.repository.MainRepository
+import id.haadii.dicoding.submission.domain.usecase.StoryInteractor
+import id.haadii.dicoding.submission.domain.usecase.StoryUseCase
 import id.hadi.dicoding.storyapp.R
-import id.hadi.dicoding.storyapp.domain.StoryInteractor
-import id.hadi.dicoding.storyapp.domain.StoryUseCase
 import id.hadi.dicoding.storyapp.ui.home.StoryAdapter
 import javax.inject.Singleton
 

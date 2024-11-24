@@ -7,12 +7,10 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import id.haadii.dicoding.submission.core.model.LoginEligible
-import id.haadii.dicoding.submission.core.model.Resource
-import id.haadii.dicoding.submission.core.network.request.LoginRequest
-import id.haadii.dicoding.submission.core.network.request.RegisterRequest
-import id.haadii.dicoding.submission.core.network.response.LoginResult
-import id.haadii.dicoding.submission.core.repositories.MainRepository
+import id.haadii.dicoding.submission.domain.model.LoginEligible
+import id.haadii.dicoding.submission.domain.model.LoginResult
+import id.haadii.dicoding.submission.domain.model.Resource
+import id.haadii.dicoding.submission.domain.usecase.StoryUseCase
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -25,14 +23,14 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AuthViewModel  @Inject constructor(
-    private val repository: MainRepository
+    private val useCase: StoryUseCase
 ): ViewModel() {
 
     private var _loginEligibleLiveData = MutableLiveData(LoginEligible())
     val loginEligibleLiveData : LiveData<LoginEligible> get() = _loginEligibleLiveData
 
-    fun register(request: RegisterRequest) = flow {
-        emit(repository.register(request))
+    fun register(name: String, email: String, password: String) = flow {
+        emit(useCase.register(name, email, password))
     }.map {
         Resource.Success(data = it) as Resource<*>
     }.onStart {
@@ -41,8 +39,8 @@ class AuthViewModel  @Inject constructor(
         emit(Resource.Error(data = it))
     }.asLiveData()
 
-    fun login(request: LoginRequest) = flow {
-        emit(repository.login(request))
+    fun login(email: String, password: String) = flow {
+        emit(useCase.login(email, password))
     }.map {
         setIsLogin(true)
         setToken(it.loginResult.token)
@@ -67,26 +65,26 @@ class AuthViewModel  @Inject constructor(
 
     fun setIsLogin(isLogin: Boolean) {
         viewModelScope.launch {
-            repository.setIsLogin(isLogin)
+            useCase.setIsLogin(isLogin)
         }
     }
 
-    fun getIsLogin(): LiveData<Boolean> = repository.getIsLogin().asLiveData()
+    fun getIsLogin(): LiveData<Boolean> = useCase.getIsLogin().asLiveData()
 
     fun setToken(token: String) {
         viewModelScope.launch {
-            repository.setToken(token)
+            useCase.setToken(token)
         }
     }
 
     private fun setUser(user: LoginResult?) {
         val userString = if (user == null) "" else Gson().toJson(user)
         viewModelScope.launch {
-            repository.setUser(userString)
+            useCase.setUser(userString)
         }
     }
 
-    fun getUser() = repository.getUser()
+    fun getUser() = useCase.getUser()
         .map {
             val user = Gson().fromJson(it, LoginResult::class.java)
             user

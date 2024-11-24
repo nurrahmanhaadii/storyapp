@@ -8,17 +8,14 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.paging.map
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import dagger.hilt.android.AndroidEntryPoint
-import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.domain.model.Resource
 import id.hadi.dicoding.storyapp.R
 import id.hadi.dicoding.storyapp.databinding.ActivityMainBinding
-import id.hadi.dicoding.storyapp.domain.model.Story
 import id.hadi.dicoding.storyapp.helper.Utils
-import id.hadi.dicoding.storyapp.helper.mapToDomain
 import id.hadi.dicoding.storyapp.ui.auth.AuthViewModel
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
@@ -71,11 +68,11 @@ class MainActivity : AppCompatActivity(), ItemClickListener {
 
     private fun getAllStories() {
         storyViewModel.getAllStories().observe(this) {
-            storyAdapter.submitData(lifecycle, it.map { data -> data.mapToDomain() })
+            storyAdapter.submitData(lifecycle, it)
         }
     }
 
-    override fun onStoryClicked(item: Story) {
+    override fun onStoryClicked(item: id.haadii.dicoding.submission.domain.model.Story) {
         val intent = Intent(this, DetailStoryActivity::class.java)
         intent.putExtra("story_key", item)
         addStoryLauncher.launch(intent)

@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import id.hadi.dicoding.storyapp.databinding.ItemStoryBinding
-import id.hadi.dicoding.storyapp.domain.model.Story
 
 /**
  * Created by nurrahmanhaadii on 13,March,2024
  */
-class StoryAdapter: PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(DIFF_CALLBACK) {
+class StoryAdapter: PagingDataAdapter<id.haadii.dicoding.submission.domain.model.Story, StoryAdapter.StoryViewHolder>(DIFF_CALLBACK) {
 
     inner class StoryViewHolder(private val binding: ItemStoryBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Story) {
+        fun bind(item: id.haadii.dicoding.submission.domain.model.Story) {
             Glide.with(itemView.context).load(item.photoUrl)
                 .into(binding.ivItemPhoto)
             binding.tvDetailName.text = item.name
@@ -49,12 +48,12 @@ class StoryAdapter: PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(DIFF_
     }
 
     companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Story>() {
-            override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<id.haadii.dicoding.submission.domain.model.Story>() {
+            override fun areItemsTheSame(oldItem: id.haadii.dicoding.submission.domain.model.Story, newItem: id.haadii.dicoding.submission.domain.model.Story): Boolean {
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
+            override fun areContentsTheSame(oldItem: id.haadii.dicoding.submission.domain.model.Story, newItem: id.haadii.dicoding.submission.domain.model.Story): Boolean {
                 return oldItem.id == newItem.id
             }
         }
@@ -62,5 +61,5 @@ class StoryAdapter: PagingDataAdapter<Story, StoryAdapter.StoryViewHolder>(DIFF_
 }
 
 interface ItemClickListener {
-    fun onStoryClicked(item: Story)
+    fun onStoryClicked(item: id.haadii.dicoding.submission.domain.model.Story)
 }

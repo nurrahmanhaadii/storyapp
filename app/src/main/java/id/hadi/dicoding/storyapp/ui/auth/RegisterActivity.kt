@@ -6,9 +6,8 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import id.haadii.dicoding.submission.core.model.Resource
-import id.haadii.dicoding.submission.core.network.request.RegisterRequest
-import id.haadii.dicoding.submission.core.network.response.BaseResponse
+import id.haadii.dicoding.submission.domain.model.BaseResponse
+import id.haadii.dicoding.submission.domain.model.Resource
 import id.hadi.dicoding.storyapp.databinding.ActivityRegisterBinding
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity.Companion.KEY_EMAIL
@@ -42,9 +41,8 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.edRegisterEmail.text.toString()
         val password = binding.edRegisterPassword.text.toString()
 
-        val request = RegisterRequest(name, email, password)
 
-        viewModel.register(request).observe(this) {
+        viewModel.register(name, email, password).observe(this) {
             when(it) {
                 Resource.Loading -> loading.show()
                 is Resource.Error -> {

@@ -17,3 +17,4 @@ rootProject.name = "Story App"
 include(":app")
 include(":core")
 include(":favorite")
+include(":domain")

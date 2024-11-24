@@ -7,14 +7,14 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import id.haadii.dicoding.submission.core.local.database.StoryDatabase
 import id.haadii.dicoding.submission.core.local.entity.RemoteKeys
-import id.haadii.dicoding.submission.core.local.entity.StoryEntity
 import id.haadii.dicoding.submission.core.network.api.ApiService
+import id.haadii.dicoding.submission.domain.model.Story
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(
     private val database: StoryDatabase,
     private val apiService: ApiService
-): RemoteMediator<Int, StoryEntity>() {
+): RemoteMediator<Int, Story>() {
     private companion object {
         const val INITIAL_PAGE_INDEX = 1
     }
@@ -25,7 +25,7 @@ class StoryRemoteMediator(
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, StoryEntity>
+        state: PagingState<Int, Story>
     ): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH ->{
@@ -70,19 +70,19 @@ class StoryRemoteMediator(
         }
     }
 
-    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, StoryEntity>): RemoteKeys? {
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Story>): RemoteKeys? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }?.data?.lastOrNull()?.let { data ->
             database.remoteKeysDao().getRemoteKeysId(data.id)
         }
     }
 
-    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, StoryEntity>): RemoteKeys? {
+    private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Story>): RemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()?.let { data ->
             database.remoteKeysDao().getRemoteKeysId(data.id)
         }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, StoryEntity>): RemoteKeys? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Story>): RemoteKeys? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
                 database.remoteKeysDao().getRemoteKeysId(id)

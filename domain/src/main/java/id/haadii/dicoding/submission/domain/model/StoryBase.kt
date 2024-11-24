@@ -1,4 +1,4 @@
-package id.hadi.dicoding.storyapp.domain.model
+package id.haadii.dicoding.submission.domain.model
 
 
 data class StoryBase(

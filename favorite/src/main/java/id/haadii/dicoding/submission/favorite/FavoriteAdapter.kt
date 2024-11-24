@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import id.haadii.dicoding.submission.domain.model.Story
 import id.hadi.dicoding.storyapp.databinding.ItemStoryBinding
-import id.hadi.dicoding.storyapp.domain.model.Story
 
 /**
  * Created by nurrahmanhaadii on 13,March,2024

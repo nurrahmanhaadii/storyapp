@@ -13,9 +13,8 @@ import id.haadii.dicoding.submission.core.StoryPreferenceManager
 import id.haadii.dicoding.submission.core.local.database.StoryDatabase
 import id.haadii.dicoding.submission.core.network.api.RetrofitBuilder
 import id.haadii.dicoding.submission.core.repositories.MainRepositoryImpl
+import id.haadii.dicoding.submission.domain.usecase.StoryInteractor
 import id.haadii.dicoding.submission.favorite.databinding.ActivityFavoriteBinding
-import id.hadi.dicoding.storyapp.domain.StoryInteractor
-import id.hadi.dicoding.storyapp.domain.model.Story
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
 import id.hadi.dicoding.storyapp.ui.home.MainActivity.Companion.RESULT_ADD_STORY_SUCCESS
 import id.hadi.dicoding.storyapp.ui.story.DetailStoryActivity
@@ -75,7 +74,7 @@ class FavoriteActivity : AppCompatActivity(), ItemClickListener {
         }
     }
 
-    override fun onStoryClicked(item: Story) {
+    override fun onStoryClicked(item: id.haadii.dicoding.submission.domain.model.Story) {
         val intent = Intent(this, DetailStoryActivity::class.java)
         intent.putExtra("story_key", item)
         addStoryLauncher.launch(intent)

@@ -5,11 +5,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
-import id.haadii.dicoding.submission.core.model.Resource
+import id.haadii.dicoding.submission.domain.model.Resource
 import id.hadi.dicoding.storyapp.R
 import id.hadi.dicoding.storyapp.databinding.ActivityDetailStoryBinding
-import id.hadi.dicoding.storyapp.domain.model.Story
-import id.hadi.dicoding.storyapp.domain.model.StoryBase
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.helper.parcelable
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
@@ -22,7 +20,7 @@ class DetailStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailStoryBinding
     private val viewModel: StoryViewModel by viewModels()
-    private var story: Story? = null
+    private var story: id.haadii.dicoding.submission.domain.model.Story? = null
     private val loading: LoadingDialog by lazy { LoadingDialog(this) }
 
     @Inject
@@ -43,14 +41,14 @@ class DetailStoryActivity : AppCompatActivity() {
     }
 
     private fun getData() {
-        story = intent.parcelable<Story>("story_key")
+        story = intent.parcelable<id.haadii.dicoding.submission.domain.model.Story>("story_key")
         story?.id?.let {
             viewModel.getDetailStory(it).observe(this) { resources ->
                 when (resources) {
                     Resource.Loading -> loading.show()
                     is Resource.Success -> {
                         loading.dismiss()
-                        val data = resources.data as StoryBase
+                        val data = resources.data as id.haadii.dicoding.submission.domain.model.StoryBase
                         val story = data.story
                         binding.apply {
                             glide.load(story.photoUrl).into(ivPhoto)
