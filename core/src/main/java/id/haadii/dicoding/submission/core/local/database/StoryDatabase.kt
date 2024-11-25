@@ -10,6 +10,8 @@ import id.haadii.dicoding.submission.core.local.dao.StoryDao
 import id.haadii.dicoding.submission.core.local.entity.Favorite
 import id.haadii.dicoding.submission.core.local.entity.RemoteKeys
 import id.haadii.dicoding.submission.core.local.entity.StoryEntity
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 
 @Database(entities = [StoryEntity::class, RemoteKeys::class, Favorite::class], version = 2, exportSchema = false)
 abstract class StoryDatabase: RoomDatabase() {
@@ -23,12 +25,15 @@ abstract class StoryDatabase: RoomDatabase() {
 
         @JvmStatic
         fun getDatabase(context: Context): StoryDatabase {
+            val passphrase: ByteArray = SQLiteDatabase.getBytes("storyDicoding".toCharArray())
+            val factory = SupportFactory(passphrase)
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     StoryDatabase::class.java, "story_database"
                 )
                     .fallbackToDestructiveMigration()
+                    .openHelperFactory(factory)
                     .build()
                     .also { INSTANCE = it }
             }

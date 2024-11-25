@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="id.hadi.dicoding.storyapp.ui.home.StoryResponseViewModelTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2024-11-25T04:13:18" hostname="Nurrahmans-MacBook-Pro.local" time="0.167">
-  <properties/>
-  <testcase name="when Get Stories Empty and Return Success" classname="id.hadi.dicoding.storyapp.ui.home.StoryResponseViewModelTest" time="0.156"/>
-  <testcase name="when Get Stories Should Not Null and Return Success" classname="id.hadi.dicoding.storyapp.ui.home.StoryResponseViewModelTest" time="0.011"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -9,6 +9,15 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("release") {
+            storeFile =
+                file("/Users/nurrahmanhadi/AndroidStudioProjects/dicoding/Submission/StoryApp/storykeystore.jks")
+            storePassword = "storyapp123"
+            keyAlias = "keyStory"
+            keyPassword = "storyapp123"
+        }
+    }
     namespace = "id.hadi.dicoding.storyapp"
     compileSdk = 34
 
@@ -24,11 +33,21 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
+        }
+        debug {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -49,10 +68,10 @@ dependencies {
     implementation(project(":domain"))
 
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.activity:activity:1.8.0")
+    api("androidx.appcompat:appcompat:1.6.1")
+    api("com.google.android.material:material:1.11.0")
+    api("androidx.constraintlayout:constraintlayout:2.1.4")
+    api("androidx.activity:activity:1.8.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
@@ -67,6 +86,9 @@ dependencies {
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("app.cash.turbine:turbine:1.1.0")
     testImplementation("androidx.paging:paging-testing:3.2.1")
+
+//    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
+
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
