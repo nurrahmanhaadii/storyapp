@@ -51,7 +51,7 @@ jobs:
           name: Run Unit Test
           command: ./gradlew clean test
       - store_test_results:
-        path: app/build/outputs
+        path: app/build/test-results
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 build_and_test:
