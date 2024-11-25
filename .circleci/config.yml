@@ -9,7 +9,7 @@ version: 2.1
 # See: https://circleci.com/docs/orb-intro/
 orbs:
   # See the Android orb documentation here: https://circleci.com/developer/orbs/orb/circleci/android
-  android: circleci/android@2.4.0
+  android: circleci/android@3.0.2
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/jobs-steps/#jobs-overview & https://circleci.com/docs/configuration-reference/#jobs
@@ -19,8 +19,14 @@ jobs:
     # These next lines define the Android machine image executor.
     # See: https://circleci.com/docs/executor-intro/ & https://circleci.com/developer/orbs/orb/circleci/android#executors-android-machine
     executor:
-      name: android/android-machine
+      name: android/android_machine
       tag: default
+    parameters:
+      java_version:
+        default: 18
+        description: |
+          The version of OpenJDK to change to
+        type: integer
     environment:
       JAVA_OPTS: "--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED"
     # Add steps to the job
@@ -42,7 +48,7 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  build: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - build
