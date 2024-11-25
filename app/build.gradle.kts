@@ -9,15 +9,15 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        create("release") {
-            storeFile =
-                file("/Users/nurrahmanhadi/AndroidStudioProjects/dicoding/Submission/StoryApp/storykeystore.jks")
-            storePassword = "storyapp123"
-            keyAlias = "keyStory"
-            keyPassword = "storyapp123"
-        }
-    }
+//    signingConfigs {
+//        create("release") {
+//            storeFile =
+//                file("/Users/nurrahmanhadi/AndroidStudioProjects/dicoding/Submission/StoryApp/storykeystore.jks")
+//            storePassword = "storyapp123"
+//            keyAlias = "keyStory"
+//            keyPassword = "storyapp123"
+//        }
+//    }
     namespace = "id.hadi.dicoding.storyapp"
     compileSdk = 34
 
@@ -39,7 +39,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+//            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isMinifyEnabled = true
