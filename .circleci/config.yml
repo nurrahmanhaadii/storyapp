@@ -43,7 +43,7 @@ jobs:
           name: Run Unit Test
           command: ./gradlew clean testDebugUnitTest
       - store_test_results:
-          path: app/test-results/testDebugUnitTest/TEST-id.hadi.dicoding.storyapp.ui.home.StoryResponseViewModelTest.xml
+          path: app/build/test-results
   
   # unit_test:
   #   docker:
