@@ -40,18 +40,40 @@ jobs:
           path: app/build/outputs/apk/debug/
           destination: artifact-file
   
-  unit_test:
-    docker:
-      - image: cimg/android:2023.08
+  # unit_test:
+  #   docker:
+  #     - image: cimg/android:2023.08
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         key: android-orb-v1-
+  #     - run:
+  #         name: Run Unit Test
+  #         command: ./gradlew clean testDebugUnitTest
+  #     - store_test_results:
+  #         path: app/test-results/testDebugUnitTest/TEST-id.hadi.dicoding.storyapp.ui.home.StoryResponseViewModelTest.xml
+  unit-test:
+    executor:
+      name: android/android-machine
+      resource-class: xlarge
     steps:
       - checkout
-      - restore_cache:
-          key: android-orb-v1-
+      - android/restore-gradle-cache
+      - android/restore-build-cache
+      - android/run-tests:
+          test-command: ./gradlew testDebug
+      - android/save-gradle-cache
+      - android/save-build-cache
       - run:
-          name: Run Unit Test
-          command: ./gradlew clean testDebugUnitTest
+          name: Save test results
+          command: |
+              mkdir -p ~/test-results/junit/
+              find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
       - store_test_results:
-          path: app/test-results/testDebugUnitTest/TEST-id.hadi.dicoding.storyapp.ui.home.StoryResponseViewModelTest.xml
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 build_and_test:
