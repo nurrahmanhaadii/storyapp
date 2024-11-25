@@ -49,7 +49,7 @@ jobs:
           key: android-orb-v1-
       - run:
           name: Run Unit Test
-          command: ./gradlew clean test
+          command: ./gradlew clean testDebugUnitTest
       - store_test_results:
           path: app/build/test-results/testDebugUnitTest/
 # Orchestrate jobs using workflows
