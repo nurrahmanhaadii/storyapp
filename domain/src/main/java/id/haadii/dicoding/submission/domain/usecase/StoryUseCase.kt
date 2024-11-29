@@ -36,7 +36,7 @@ interface StoryUseCase {
 
     fun setDummyStories(stories: List<Story>)
 
-    suspend fun setFavorite(isFavorite: Boolean, id: String)
+    suspend fun setFavorite(isFavorite: Boolean, id: String, story: Story)
 
     suspend fun getIsFavorite(id: String): Boolean
 

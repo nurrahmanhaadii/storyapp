@@ -11,16 +11,18 @@ import id.haadii.dicoding.submission.core.local.entity.StoryEntity
 interface StoryDao {
     @Query("SELECT * FROM story")
     fun getAllStories(): PagingSource<Int, StoryEntity>
+    @Query("SELECT * FROM story")
+    suspend fun getStories(): List<StoryEntity>
     @Query("DELETE FROM story")
     fun deleteAll()
     @Query("SELECT * FROM story WHERE id = :id")
-    fun getStoryById(id: String): StoryEntity
+    suspend fun getStoryById(id: String): StoryEntity?
     @Query("DELETE FROM story WHERE id = :id")
     fun deleteStoryById(id: String)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(storyEntity: List<StoryEntity>)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(storyEntity: StoryEntity)
+    suspend fun insert(storyEntity: StoryEntity)
     @Query("""
         UPDATE story
         SET isFavorite = CASE

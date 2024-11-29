@@ -86,7 +86,7 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:1.1.0")
     testImplementation("androidx.paging:paging-testing:3.2.1")
 
-//    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.10")
 
 
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

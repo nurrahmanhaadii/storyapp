@@ -70,6 +70,7 @@ object Utils {
         val newFile = File(context.cacheDir, fileName)
 
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
+        fileDescriptor.close()
         val outputStream = newFile.outputStream()
 
         val buffer = ByteArray(BUFFER_SIZE)

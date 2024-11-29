@@ -57,9 +57,9 @@ class StoryViewModel @Inject constructor(private val useCase: StoryUseCase) : Vi
         emit(Resource.Error(data = it))
     }.asLiveData()
 
-    fun setFavorite(isFavorite: Boolean, id: String) {
+    fun setFavorite(isFavorite: Boolean, id: String, story: Story) {
         viewModelScope.launch {
-            useCase.setFavorite(isFavorite, id)
+            useCase.setFavorite(isFavorite, id, story)
         }
     }
 

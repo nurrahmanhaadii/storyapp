@@ -50,6 +50,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/ic_add"/>
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/go_to_add_story"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

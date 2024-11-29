@@ -8,11 +8,10 @@ import androidx.paging.PagingData
 import androidx.paging.liveData
 import id.haadii.dicoding.submission.core.StoryPagingSource
 import id.haadii.dicoding.submission.core.StoryPreferenceManager
-import id.haadii.dicoding.submission.core.StoryRemoteMediator
 import id.haadii.dicoding.submission.core.helpers.Utils
 import id.haadii.dicoding.submission.core.local.database.StoryDatabase
-import id.haadii.dicoding.submission.core.local.entity.Favorite
 import id.haadii.dicoding.submission.core.mapToDomain
+import id.haadii.dicoding.submission.core.mapToEntity
 import id.haadii.dicoding.submission.core.network.api.ApiService
 import id.haadii.dicoding.submission.core.network.request.LoginRequest
 import id.haadii.dicoding.submission.core.network.request.RegisterRequest
@@ -49,7 +48,6 @@ class MainRepositoryImpl(
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
             pagingSourceFactory = {
                 StoryPagingSource(apiService)
             }
@@ -103,19 +101,19 @@ class MainRepositoryImpl(
 
     override fun setDummyStories(stories: List<Story>) = Unit
 
-    override suspend fun setFavorite(isFavorite: Boolean, id: String) {
+    override suspend fun setFavorite(isFavorite: Boolean, id: String, story: Story) {
         if (isFavorite) {
-            storyDatabase.favoriteDao().insert(Favorite(id))
+            storyDatabase.storyDao().insert(story.mapToEntity())
         } else {
-            storyDatabase.favoriteDao().deleteFavorite(id)
+            storyDatabase.storyDao().deleteStoryById(id)
         }
     }
 
     override suspend fun getIsFavorite(id: String): Boolean {
-        return storyDatabase.favoriteDao().getFavorite(id) != null
+        return storyDatabase.storyDao().getStoryById(id) != null
     }
 
     override suspend fun getFavorite(): List<Story> {
-        return storyDatabase.favoriteDao().getFavorite().map { it.mapToDomain() }
+        return storyDatabase.storyDao().getStories().map { it.mapToDomain() }
     }
 }

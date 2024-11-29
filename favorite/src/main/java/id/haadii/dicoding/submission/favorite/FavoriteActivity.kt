@@ -9,35 +9,37 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import id.haadii.dicoding.submission.core.StoryPreferenceManager
-import id.haadii.dicoding.submission.core.local.database.StoryDatabase
-import id.haadii.dicoding.submission.core.network.api.RetrofitBuilder
-import id.haadii.dicoding.submission.core.repositories.MainRepositoryImpl
-import id.haadii.dicoding.submission.domain.usecase.StoryInteractor
+import dagger.hilt.android.EntryPointAccessors
 import id.haadii.dicoding.submission.favorite.databinding.ActivityFavoriteBinding
-import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
+import id.haadii.dicoding.submission.favorite.di.DaggerFavoriteComponent
+import id.hadi.dicoding.storyapp.di.FavoriteModuleDependencies
 import id.hadi.dicoding.storyapp.ui.home.MainActivity.Companion.RESULT_ADD_STORY_SUCCESS
 import id.hadi.dicoding.storyapp.ui.story.DetailStoryActivity
+import javax.inject.Inject
 
 class FavoriteActivity : AppCompatActivity(), ItemClickListener {
-    private val apiService by lazy { RetrofitBuilder.apiService(this) }
-    private val dataStoryPreferenceManager by lazy { StoryPreferenceManager(this) }
-    private val database by lazy { StoryDatabase.getDatabase(this) }
-    private val mainRepository by lazy { MainRepositoryImpl(apiService, dataStoryPreferenceManager, database) }
-    private val useCase by lazy { StoryInteractor(mainRepository) }
-    private val viewModel: FavoriteViewModel by viewModelFactory { FavoriteViewModel(useCase) }
-    private val loading: LoadingDialog by lazy { LoadingDialog(this) }
+
+    @Inject
+    lateinit var viewModel: FavoriteViewModel
+
     private lateinit var binding: ActivityFavoriteBinding
 
     private var favoriteAdapter = FavoriteAdapter()
 
-    private val addStoryLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_ADD_STORY_SUCCESS) {
-            getFavorite()
+    private val addStoryLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_ADD_STORY_SUCCESS) {
+                getFavorite()
+            }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        DaggerFavoriteComponent.builder().appDependencies(
+            EntryPointAccessors.fromApplication(
+                applicationContext,
+                FavoriteModuleDependencies::class.java
+            )
+        ).context(this).build().inject(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityFavoriteBinding.inflate(layoutInflater)

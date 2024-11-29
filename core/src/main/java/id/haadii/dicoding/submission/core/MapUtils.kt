@@ -76,3 +76,15 @@ fun StoryEntity.mapToDomain(): Story {
         photoUrl = photoUrl
     )
 }
+
+fun Story.mapToEntity(): StoryEntity {
+    return StoryEntity(
+        id = id,
+        description = description,
+        lat = lat,
+        lon = lon,
+        name = name,
+        photoUrl = photoUrl,
+        isFavorite = true
+    )
+}

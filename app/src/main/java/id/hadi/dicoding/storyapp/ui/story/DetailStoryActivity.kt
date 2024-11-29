@@ -84,7 +84,7 @@ class DetailStoryActivity : AppCompatActivity() {
 
     private fun setFavorite() {
         isFavorite = !isFavorite
-        viewModel.setFavorite(isFavorite, story?.id ?: "")
+        viewModel.setFavorite(isFavorite, story?.id ?: "", story ?: return)
         updateFavoriteBtn()
     }
 }

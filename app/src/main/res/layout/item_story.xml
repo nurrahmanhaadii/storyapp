@@ -17,7 +17,8 @@
         <ImageView
             android:id="@+id/iv_item_photo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/story_image"/>
 
         <LinearLayout
             android:layout_width="match_parent"

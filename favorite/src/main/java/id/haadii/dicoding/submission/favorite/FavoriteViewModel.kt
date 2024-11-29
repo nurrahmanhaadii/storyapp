@@ -9,8 +9,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
+import javax.inject.Inject
 
-class FavoriteViewModel(private val useCase: StoryUseCase) : ViewModel() {
+class FavoriteViewModel @Inject constructor(private val useCase: StoryUseCase) : ViewModel() {
     private var listFavorite = listOf<Story>()
 
     fun getFavorite() = flow {

@@ -68,8 +68,8 @@ class StoryInteractor(private val repository: MainRepository) : StoryUseCase {
         return repository.setDummyStories(stories)
     }
 
-    override suspend fun setFavorite(isFavorite: Boolean, id: String) {
-        return repository.setFavorite(isFavorite, id)
+    override suspend fun setFavorite(isFavorite: Boolean, id: String, story: Story) {
+        return repository.setFavorite(isFavorite, id, story)
     }
 
     override suspend fun getIsFavorite(id: String): Boolean {
