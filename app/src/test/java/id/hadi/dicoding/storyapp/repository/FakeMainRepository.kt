@@ -32,7 +32,7 @@ class FakeStoryUseCase: StoryUseCase {
         dummyStories = stories
     }
 
-    override suspend fun setFavorite(isFavorite: Boolean, id: String) {
+    override suspend fun setFavorite(isFavorite: Boolean, id: String, story: Story) {
         TODO("Not yet implemented")
     }
 
