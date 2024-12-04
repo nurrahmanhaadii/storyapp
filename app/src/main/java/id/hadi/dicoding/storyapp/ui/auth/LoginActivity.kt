@@ -38,9 +38,9 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        observeLoginStatus()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        observeLoginStatus()
         playAnimation()
 
         loading = LoadingDialog(this, "Logging In...")

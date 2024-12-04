@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.AndroidEntryPoint
 import id.haadii.dicoding.submission.domain.model.BaseResponse
 import id.haadii.dicoding.submission.domain.model.Resource
@@ -13,6 +15,7 @@ import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity.Companion.KEY_EMAIL
 import id.hadi.dicoding.storyapp.ui.auth.LoginActivity.Companion.RESULT_REGISTER_SUCCESS
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
+import retrofit2.HttpException
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
@@ -47,7 +50,11 @@ class RegisterActivity : AppCompatActivity() {
                 Resource.Loading -> loading.show()
                 is Resource.Error -> {
                     loading.dismiss()
-                    Utils.showSnackBar(binding.root, it.data.toString())
+                    val gson = Gson()
+                    val type = object : TypeToken<BaseResponse>() {}.type
+                    val response = (it.data as HttpException).response()
+                    val errorResponse: BaseResponse? = gson.fromJson(response?.errorBody()?.charStream(), type)
+                    Utils.showSnackBar(binding.root, errorResponse?.message.toString())
                 }
                 is Resource.Success -> {
                     loading.dismiss()

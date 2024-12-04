@@ -35,8 +35,8 @@ class AuthViewModel  @Inject constructor(
         Resource.Success(data = it) as Resource<*>
     }.onStart {
         emit(Resource.Loading)
-    }.catch {
-        emit(Resource.Error(data = it))
+    }.catch { exception ->
+        emit(Resource.Error(data = exception))
     }.asLiveData()
 
     fun login(email: String, password: String) = flow {

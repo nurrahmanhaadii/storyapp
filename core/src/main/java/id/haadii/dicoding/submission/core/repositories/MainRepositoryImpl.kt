@@ -35,7 +35,9 @@ class MainRepositoryImpl(
 ) : MainRepository {
 
     override suspend fun register(name: String, email: String, password: String): BaseResponse {
-        return apiService.register(RegisterRequest(name, email, password)).mapToDomain()
+        val request = RegisterRequest(name, email, password)
+        val response = apiService.register(request)
+        return response.mapToDomain()
     }
 
     override suspend fun login(email: String, password: String): Login {
