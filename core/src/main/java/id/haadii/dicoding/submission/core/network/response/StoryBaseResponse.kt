@@ -9,7 +9,7 @@ data class StoryBaseResponse(
     @SerializedName("listStory")
     val listStory: List<StoryResponse>? = listOf(),
     @SerializedName("story")
-    val story: StoryResponse,
+    val story: StoryResponse?,
     @SerializedName("message")
     val message: String
 )

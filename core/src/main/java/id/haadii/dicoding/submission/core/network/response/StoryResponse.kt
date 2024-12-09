@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 
 data class StoryResponse(
     @SerializedName("createdAt")
-    val createdAt: String,
+    val createdAt: String = "",
     @SerializedName("description")
-    val description: String,
+    val description: String = "",
     @SerializedName("id")
-    val id: String,
+    val id: String = "",
     @SerializedName("lat")
-    val lat: Double?,
+    val lat: Double? = null,
     @SerializedName("lon")
-    val lon: Double?,
+    val lon: Double? = null,
     @SerializedName("name")
-    val name: String,
+    val name: String = "",
     @SerializedName("photoUrl")
-    val photoUrl: String
+    val photoUrl: String = ""
 )

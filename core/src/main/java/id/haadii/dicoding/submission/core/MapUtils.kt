@@ -50,7 +50,7 @@ fun StoryBaseResponse.mapToDomain(): StoryBase {
     return StoryBase(
         error = error,
         message = message,
-        story = story.mapToDomain(),
+        story = (story ?: StoryResponse()).mapToDomain(),
         listStory = (listStory ?: listOf()).map { it.mapToDomain() }
     )
 }
