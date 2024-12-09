@@ -1,7 +1,6 @@
 package id.haadii.dicoding.submission.core.repositories
 
 import androidx.lifecycle.LiveData
-import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -44,7 +43,6 @@ class MainRepositoryImpl(
         return apiService.login(LoginRequest(email, password)).mapToDomain()
     }
 
-    @OptIn(ExperimentalPagingApi::class)
     override fun getAllStories(): LiveData<PagingData<Story>> {
         return Pager(
             config = PagingConfig(

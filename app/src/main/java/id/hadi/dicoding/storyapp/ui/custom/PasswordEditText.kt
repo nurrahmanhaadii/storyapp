@@ -2,14 +2,8 @@ package id.hadi.dicoding.storyapp.ui.custom
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
-import android.widget.EditText
-import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.content.ContextCompat
-import id.hadi.dicoding.storyapp.R
 
 /**
  * Created by nurrahmanhaadii on 18,March,2024

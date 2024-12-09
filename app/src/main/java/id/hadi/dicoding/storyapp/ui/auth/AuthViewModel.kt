@@ -63,7 +63,7 @@ class AuthViewModel  @Inject constructor(
         emit(Resource.Error(data = it))
     }.asLiveData()
 
-    fun setIsLogin(isLogin: Boolean) {
+    private fun setIsLogin(isLogin: Boolean) {
         viewModelScope.launch {
             useCase.setIsLogin(isLogin)
         }
@@ -71,7 +71,7 @@ class AuthViewModel  @Inject constructor(
 
     fun getIsLogin(): LiveData<Boolean> = useCase.getIsLogin().asLiveData()
 
-    fun setToken(token: String) {
+    private fun setToken(token: String) {
         viewModelScope.launch {
             useCase.setToken(token)
         }
@@ -83,12 +83,6 @@ class AuthViewModel  @Inject constructor(
             useCase.setUser(userString)
         }
     }
-
-    fun getUser() = useCase.getUser()
-        .map {
-            val user = Gson().fromJson(it, LoginResult::class.java)
-            user
-        }.asLiveData()
 
     fun updateLoginEligible(isEmailValid: Boolean? = null, isPasswordValid: Boolean? = null) {
         val loginEligible = _loginEligibleLiveData.value?.copy()

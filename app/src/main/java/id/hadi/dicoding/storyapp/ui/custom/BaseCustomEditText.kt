@@ -1,18 +1,14 @@
 package id.hadi.dicoding.storyapp.ui.custom
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources.Theme
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
-import android.widget.ImageButton
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import id.hadi.dicoding.storyapp.R
 
@@ -66,6 +62,7 @@ open class BaseCustomEditText  : AppCompatEditText{
         )
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_UP && clearDrawable != null) {
             val bounds = Rect()

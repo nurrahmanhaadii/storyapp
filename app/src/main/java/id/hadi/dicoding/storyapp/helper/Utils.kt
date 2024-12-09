@@ -66,7 +66,7 @@ object Utils {
 
     private fun getFileFromContentUriExisting(context: Context, contentUri: Uri): File? {
         val fileDescriptor = context.contentResolver.openFileDescriptor(contentUri, "r") ?: return null
-        val fileName = getFileName(contentUri) ?: return null
+        val fileName = getFileName(contentUri)
         val newFile = File(context.cacheDir, fileName)
 
         val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
@@ -90,7 +90,7 @@ object Utils {
         }
     }
 
-    private fun getFileName(contentUri: Uri): String? {
+    private fun getFileName(contentUri: Uri): String {
         val fileName = contentUri.lastPathSegment
         return if (fileName.isNullOrEmpty()) {
             "temp_file" // Default filename if not provided by URI
@@ -167,8 +167,8 @@ object Utils {
 
     }
 
-    const val MAX_IMAGE_DIMENSION = 1024 // Adjust based on your needs (in pixels)
-    const val MIN_QUALITY = 60
-    const val COMPRESSION_DECREMENT = 10 // Adjust minimum quality (0-100)
-    var QUALITY = 80 // Initial quality (0-100)
+    private const val MAX_IMAGE_DIMENSION = 1024 // Adjust based on your needs (in pixels)
+    private const val MIN_QUALITY = 60
+    private const val COMPRESSION_DECREMENT = 10 // Adjust minimum quality (0-100)
+    private var QUALITY = 80 // Initial quality (0-100)
 }

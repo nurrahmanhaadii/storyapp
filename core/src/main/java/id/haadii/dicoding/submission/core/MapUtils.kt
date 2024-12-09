@@ -12,17 +12,6 @@ import id.haadii.dicoding.submission.domain.model.StoryBase
 import id.haadii.dicoding.submission.domain.model.BaseResponse as BaseResponseDomain
 import id.haadii.dicoding.submission.domain.model.LoginResult as LoginResultDomain
 
-fun StoryResponse.mapToEntity(): StoryEntity {
-    return StoryEntity(
-        id = id,
-        description = description,
-        lat = lat,
-        lon = lon,
-        name = name,
-        photoUrl = photoUrl
-    )
-}
-
 fun StoryResponse.mapToDomain(): Story {
     return Story(
         id = id,

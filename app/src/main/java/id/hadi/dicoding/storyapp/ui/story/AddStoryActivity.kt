@@ -19,6 +19,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.AndroidEntryPoint
 import id.haadii.dicoding.submission.domain.model.Resource
+import id.hadi.dicoding.storyapp.R
 import id.hadi.dicoding.storyapp.databinding.ActivityAddStoryBinding
 import id.hadi.dicoding.storyapp.helper.Utils
 import id.hadi.dicoding.storyapp.ui.base.LoadingDialog
@@ -210,7 +211,7 @@ class AddStoryActivity : AppCompatActivity() {
                 if (fetchedLocation.result == null) {
                     Toast.makeText(
                         this@AddStoryActivity,
-                        "Tidak berhasil untuk mendapatkan lokasi.",
+                        getString(R.string.failed_get_location),
                         Toast.LENGTH_SHORT
                     )
                         .show()
@@ -220,7 +221,7 @@ class AddStoryActivity : AppCompatActivity() {
                 long = fetchedLocation.result.longitude
                 Toast.makeText(
                     this@AddStoryActivity,
-                    "berhasil untuk mendapatkan lokasi: $lat, $long",
+                    getString(R.string.success_get_location, lat, long),
                     Toast.LENGTH_SHORT
                 )
                     .show()
@@ -229,7 +230,7 @@ class AddStoryActivity : AppCompatActivity() {
                     loading.dismiss()
                     Toast.makeText(
                         this@AddStoryActivity,
-                        "Tidak berhasil untuk mendapatkan lokasi. ${it.message}",
+                        getString(R.string.get_location_failed, it.message),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

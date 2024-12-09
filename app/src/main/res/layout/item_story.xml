@@ -41,7 +41,7 @@
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Nama"/>
+                    tools:text="@string/name"/>
 
                 <TextView
                     android:id="@+id/tv_description"

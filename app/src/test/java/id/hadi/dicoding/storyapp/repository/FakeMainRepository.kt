@@ -46,7 +46,7 @@ class FakeStoryUseCase: StoryUseCase {
 
     override fun getAllStories(): LiveData<PagingData<Story>> {
         // Create the fake paging source with test data
-        val fakePagingSource = FakePagingSource<Story>(dummyStories)
+        val fakePagingSource = FakePagingSource(dummyStories)
 
         val pager = Pager(
             config = PagingConfig(pageSize = 10),

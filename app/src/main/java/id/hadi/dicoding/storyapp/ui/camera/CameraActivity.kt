@@ -15,6 +15,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import id.hadi.dicoding.storyapp.R
 import id.hadi.dicoding.storyapp.databinding.ActivityCameraBinding
 import id.hadi.dicoding.storyapp.helper.Utils.createCustomTempFile
 
@@ -53,7 +54,7 @@ class CameraActivity : AppCompatActivity() {
         override fun onError(exception: ImageCaptureException) {
             Toast.makeText(
                 this@CameraActivity,
-                "Gagal mengambil gambar.",
+                getString(R.string.failed_get_image),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -155,7 +156,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "CameraActivity"
         const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
         const val CAMERAX_RESULT = 200
     }

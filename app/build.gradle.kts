@@ -70,7 +70,7 @@ dependencies {
     api("androidx.appcompat:appcompat:1.6.1")
     api("com.google.android.material:material:1.11.0")
     api("androidx.constraintlayout:constraintlayout:2.1.4")
-    api("androidx.activity:activity:1.8.0")
+    api("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
     implementation("com.google.android.gms:play-services-maps:18.2.0")

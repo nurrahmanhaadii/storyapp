@@ -37,7 +37,7 @@
         android:id="@+id/tv_no_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No Item"
+        android:text="@string/no_item"
         android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
